@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,13 +54,4 @@ public class ProductController {
 		}).map(updatedProduct -> new ResponseEntity<>(updatedProduct, HttpStatus.OK))
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
-
-	@DeleteMapping("/product/{id}")
-	public Mono<ResponseEntity<Void>> deleteProduct(@PathVariable(value = "id") String productId) {
-		return productRepository.findById(productId)
-				.flatMap(existingProdut -> productRepository.delete(existingProdut)
-						.then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK))))
-				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-	}
-
 }

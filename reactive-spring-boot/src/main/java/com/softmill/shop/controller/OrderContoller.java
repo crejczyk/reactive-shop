@@ -1,8 +1,6 @@
 package com.softmill.shop.controller;
 
-import java.math.BigDecimal;
-import java.util.Optional;
-import java.util.stream.DoubleStream;
+import java.util.Date;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -11,18 +9,14 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softmill.shop.controller.validator.OrderValidator;
 import com.softmill.shop.model.Order;
-import com.softmill.shop.model.Product;
 import com.softmill.shop.repository.OrderRepository;
-import com.softmill.shop.repository.ProductRepository;
 
-import ch.qos.logback.core.util.Duration;
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -50,9 +44,10 @@ public class OrderContoller {
 		});
 	}
 
-	@GetMapping("/getAllOrders")
-	public Flux<Order> getAllOrder() {
-		return orderRepository.findAll();
+	@GetMapping("/orders")
+	public Flux<Order> getAllByOrderBetween(@RequestParam Long orderTimeStart,
+			@RequestParam Long orderTimeEnd) {
+		return orderRepository.findAllByOrderTimeBetween(new Date(orderTimeStart), new Date(orderTimeEnd));
 	}
 
 }

@@ -8,7 +8,7 @@
 
 2. Maven - 3.x.x
 
-3. MongoDB - 3.x.x
+3. MongoDB - 3.x.1
 
 
 ### Run command
